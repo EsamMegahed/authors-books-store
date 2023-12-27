@@ -28,6 +28,6 @@ class AuthorCreateView(CreateView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            'the author has been added '
+            'the author has been added'
         )
         return super().form_valid(form)
