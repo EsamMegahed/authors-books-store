@@ -1,9 +1,13 @@
+from django.forms.forms import BaseForm
 from django.forms.models import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView,CreateView,DetailView
+from django.views.generic import TemplateView, ListView,CreateView,DetailView,FormView
+from django.views.generic.detail import SingleObjectMixin
 from django.contrib import messages
+from django.urls import reverse
 from . models import Author
+from . forms import AuthorBooksformset
 # Create your views here.
 
 
@@ -31,3 +35,31 @@ class AuthorCreateView(CreateView):
             'the author has been added'
         )
         return super().form_valid(form)
+    
+
+
+class AuthorbooksEditView(SingleObjectMixin,FormView):
+
+    model = Author
+    template_name = 'author_books_edit.html'
+
+    def get(self,request,*args, **kwargs):
+        self.object = self.get_object(queryset=Author.objects.all())
+        return super().get(request,*args, **kwargs)
+    
+    def post(self,request,*args, **kwargs):
+        self.object = self.get_object(queryset=Author.objects.all())
+        return super().post(request,*args, **kwargs)
+    def get_form(self, form_class=None):
+        return AuthorBooksformset(**self.get_form_kwargs(),instance=self.object)
+    def form_valid(self, form):
+        form.save()
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'change were saved'
+        )
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse('books:authors_detail',kwargs={'pk':self.object.pk})

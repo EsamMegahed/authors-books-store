@@ -14,4 +14,22 @@
 </ul>
 {% endif %}
 
+<h3>Authors Book Details</h3>
+<div class="d-flex d-flex-inline">
+    <span class="pe-2">Authors Name: <span style="size: bold;">{{author.name|title}}</span></span>
+</div>
+<hr>
+{% for book in auther.book_author.all %}
+<div class="small">Book ID : {{book.id}}</div>
+<div>Title : {{book.title}}</div>
+<hr>
+{% endfor %}
+<p>
+    <a href="{% url 'books:authors_books_edit' pk=author.pk %}" role="button" class="btn btn-primary w-100 mb-2">Edit
+        Authors
+        Books</a>
+    <a href="{% url 'books:authors' %}" role="button" class="btn btn-secondary w-100 mb-2">All Collaction</a>
+</p>
+
+
 {% endblock content %}
