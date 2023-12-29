@@ -52,6 +52,8 @@ class AuthorbooksEditView(SingleObjectMixin,FormView):
         return super().post(request,*args, **kwargs)
     def get_form(self, form_class=None):
         return AuthorBooksformset(**self.get_form_kwargs(),instance=self.object)
+    def get_success_url(self):
+        return reverse('books:authors_detail',kwargs={'pk':self.object.pk})
     def form_valid(self, form):
         form.save()
         messages.add_message(
@@ -59,7 +61,7 @@ class AuthorbooksEditView(SingleObjectMixin,FormView):
             messages.SUCCESS,
             'change were saved'
         )
+        
         return HttpResponseRedirect(self.get_success_url())
     
-    def get_success_url(self):
-        return reverse('books:authors_detail',kwargs={'pk':self.object.pk})
+    

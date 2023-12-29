@@ -19,12 +19,12 @@
     <hr>
     <h5>
         {% if book_form.instance.id %}
-        Books:{{book_form.instance.title|title}}
+            Books:{{ book_form.instance.title|title }}
         {% else %}
         {% if form.forms|length > 1 %}
-        Add Another Book
+            Add Another Book
         {% else %}
-        Add A Book
+            Add A Book
         {% endif %}
         {% endif %}
     </h5>
