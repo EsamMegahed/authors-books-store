@@ -11,10 +11,11 @@
     {% endfor %}
     {% csrf_token %}
 
-    {{form.mangement_form}}
+    {{form.management_form}}
     {{form.non_form_errors}}
 
     <h3>Update Author Collections</h3>
+    
     {% for book_form in form.forms %}
     <hr>
     <h5>
